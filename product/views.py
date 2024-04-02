@@ -1,7 +1,9 @@
 from django.db.models import F
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import Response, APIView
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import (
     ListAPIView,
     RetrieveAPIView,
@@ -19,26 +21,6 @@ from .serializers import (
     StorageCreateUpdateSerializer
 )
 from .filters import StorageFilter
-
-
-# class StorageListView(APIView):
-#
-#     def get(self, request):
-#
-#         products = Storage.objects.all()
-#
-#         serializer = StorageListSerializer(products, many=True)
-#
-#         return Response(serializer.data)
-#
-#     def post(self, request):
-#
-#         serializer = FavoriteCreateSerializer(data=request.data, context={'request': request})
-#
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.save()
-#             return Response(serializer.data, status.HTTP_201_CREATED)
-#         return Response(status.HTTP_400_BAD_REQUEST)
 
 
 class IndexListView(APIView):
@@ -67,12 +49,19 @@ class IndexListView(APIView):
         return Response(data)
 
 
+class StorageListPagination(PageNumberPagination):
+    page_size = 2
+    page_size_query_param = 'page_size'
+    max_page_size = 10000
+
+
 class StorageListView(ListCreateAPIView):
     queryset = Storage.objects.all()
     filter_backends = [SearchFilter, OrderingFilter, DjangoFilterBackend]
     search_fields = ['product__title']
     ordering_fields = ['product__price', 'product__created_date']
     filterset_class = StorageFilter
+    pagination_class = StorageListPagination
 
     def get_serializer_class(self):
         if self.request.method == 'GET':

@@ -1,3 +1,4 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView, Response, status
 from .models import MyUser
 from .serializers import UserCreateSerializer, UserProfileSerializer, UserUpdateSerializer
@@ -23,6 +24,9 @@ class UserProfileView(APIView):
 
         return Response(serializer.data)
 
+    @swagger_auto_schema(
+        request_body=UserProfileSerializer()
+    )
     def patch(self, request):
         user = MyUser.objects.get(id=request.user.id)
         serializer = UserProfileSerializer(instance=user, data=request.data, partial=True,
