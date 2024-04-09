@@ -67,14 +67,20 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'capshop05',  # Имя вашей базы данных
+#         'USER': 'capuser',      # Имя вашего пользователя
+#         'PASSWORD': 'password',  # Ваш пароль
+#         'HOST': 'localhost',   # Хост, на котором работает PostgreSQL
+#         'PORT': '5433',            # Порт (по умолчанию 5432)
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'capshop05',  # Имя вашей базы данных
-        'USER': 'capuser',      # Имя вашего пользователя
-        'PASSWORD': 'password',  # Ваш пароль
-        'HOST': 'localhost',   # Хост, на котором работает PostgreSQL
-        'PORT': '5433',            # Порт (по умолчанию 5432)
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
