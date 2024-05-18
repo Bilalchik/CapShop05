@@ -38,7 +38,6 @@ class IndexListView(APIView):
         products_serializer = StorageListSerializer(products, many=True)
         sales_serializer = StorageListSerializer(sales, many=True)
 
-
         data = {
             'posters': posters_serializer.data,
             'brands': brands_serializer.data,
